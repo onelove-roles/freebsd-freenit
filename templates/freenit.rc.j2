@@ -1,0 +1,45 @@
+#!/bin/sh
+#
+# PROVIDE: freenit
+# REQUIRE: NETWORK
+# KEYWORD: shutdown
+
+. /etc/rc.subr
+
+HOME="/usr/local/repos"
+PATH="${PATH}:/usr/local/bin"
+name=freenit
+rcvar=${name}_enable
+pidpath="/var/run/${name}"
+pidfile=/var/run/${name}/backend.pid
+command="${HOME}/{{ service }}/bin/gunicorn.sh"
+command_args="${pidfile}"
+start_precmd="${name}_precmd"
+start_cmd="${name}_start"
+stop_cmd="${name}_stop"
+
+load_rc_config $name
+
+: ${freenit_enable="NO"}
+: ${freenit_user="www"}
+
+freenit_precmd() {
+  usr/bin/install -d -m 0755 -o www ${pidpath}
+}
+
+freenit_start() {
+  su -m ${freenit_user} -c "env HOME=${HOME} ${command} ${command_args}"
+}
+
+freenit_stop() {
+  if [ -f "${pidfile}" ]; then
+    echo -n "Stopping ${name} ..."
+    pkill -F "${pidfile}"
+    echo " done"
+  else
+    echo "No pidfile found at ${pidfile}"
+    exit 1
+  fi
+}
+
+run_rc_command $@

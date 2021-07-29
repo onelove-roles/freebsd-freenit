@@ -4,34 +4,27 @@
   pkgng:
     name: "{{ item.name }}"
   notify:
-    - restart uwsgi
-
-- name: create uwsgi conf dir
-  file:
-    path: /usr/local/etc/uwsgi
-    mode: 0755
-    owner: root
-    group: wheel
-    state: directory
+    - restart freenit
 
 - name: create project repo dir
   file:
     path: /usr/local/repos
     mode: 0755
-    owner: uwsgi
-    group: uwsgi
+    owner: www
+    group: www
     state: directory
 
-- name: configure uwsgi
+- name: create freenit service
   template:
-    src: uwsgi.ini.j2
-    dest: /usr/local/etc/uwsgi/uwsgi.ini
+    src: freenit.rc.j2
+    dest: /usr/local/etc/rc.d/freenit
+    mode: 0755
   notify:
-    - restart uwsgi
+    - restart freenit
 
-- name: configure uwsgi service
+- name: configure freenit service
   template:
-    src: uwsgi.j2
-    dest: /etc/rc.conf.d/uwsgi
+    src: freenit.j2
+    dest: /etc/rc.conf.d/freenit
   notify:
-    - restart uwsgi
+    - restart freenit

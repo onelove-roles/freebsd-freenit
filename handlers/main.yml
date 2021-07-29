@@ -1,5 +1,5 @@
 ---
-- name: restart uwsgi
+- name: restart freenit
   service:
-    name: uwsgi
+    name: freenit
     state: restarted
