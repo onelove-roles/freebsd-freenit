@@ -1,6 +1,4 @@
 ---
 freenit_packages:
-  - name: git-lite
-  - name: "{{ python_prefix }}-gunicorn"
+  - name: "{{ python_prefix }}-freenit"
   - name: "{{ python_prefix }}-sqlite3"
-  - name: "{{ python_prefix }}-uvicorn"

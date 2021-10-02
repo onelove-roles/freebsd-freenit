@@ -14,14 +14,6 @@
     group: www
     state: directory
 
-- name: create freenit service
-  template:
-    src: freenit.rc.j2
-    dest: /usr/local/etc/rc.d/freenit
-    mode: 0755
-  notify:
-    - restart freenit
-
 - name: configure freenit service
   template:
     src: freenit.j2
