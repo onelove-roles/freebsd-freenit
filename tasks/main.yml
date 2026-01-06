@@ -6,12 +6,21 @@
   notify:
     - restart freenit
 
-- name: create project repo dir
+- name: create project repo root
   file:
-    path: /usr/local/repos
+    path: /usr/local/deploy
     mode: 0755
     owner: www
     group: www
+    recurse: true
+    state: directory
+
+- name: create project repo dir
+  file:
+    path: /usr/local/deploy/backend
+    mode: 0755
+    owner: provision
+    group: provision
     state: directory
 
 - name: configure freenit service
